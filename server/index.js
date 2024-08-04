@@ -8,6 +8,9 @@ const io = new SocketServer(server);
 
 io.on('connection', socket => {
   console.log('Client connected');
+  socket.on('message', (data) => {
+    socket.broadcast.emit('broadcast', `Server received: ${data}`);
+  })
 });
 
 server.listen(3000);
