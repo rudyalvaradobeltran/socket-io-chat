@@ -7,9 +7,12 @@ const server = http.createServer(app);
 const io = new SocketServer(server);
 
 io.on('connection', socket => {
-  console.log('Client connected');
-  socket.on('message', (data) => {
-    socket.broadcast.emit('broadcast', `Server received: ${data}`);
+  console.log(`Client connected ${socket.id}`);
+  socket.on('message', (body) => {
+    socket.broadcast.emit('broadcast', {
+      body,
+      from: socket.id.slice(6)
+    });
   })
 });
 
